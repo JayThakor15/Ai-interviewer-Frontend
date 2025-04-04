@@ -37,7 +37,7 @@ export default function ResumeUpload() {
       formData.append("file", file);
 
       const { data } = await axios.post(
-        "http://localhost:3000/upload",  // Updated endpoint
+        "https://ai-interviewer-backend-w42e.onrender.com/upload",  // Updated endpoint
         formData,
         {
           headers: {
@@ -72,7 +72,7 @@ export default function ResumeUpload() {
       console.log("Keywords:", keywords);
 
       const response = await axios.post(
-        "http://localhost:3000/start-interview", // Correct backend URL
+        "https://ai-interviewer-backend-w42e.onrender.com/start-interview", // Correct backend URL
         {
           position: selectedPosition,
           keywords,
