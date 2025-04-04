@@ -42,7 +42,7 @@ export const startInterviewSession = async (position, keywords) => {
  * }>}
  */
 export const evaluateAnswer = async (sessionId, answer) => {
-  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/start-interview/evaluate-answer`, {
+  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/evaluate-answer`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export const evaluateAnswer = async (sessionId, answer) => {
  * @returns {Promise<string[]>} - Array of questions
  */
 export const generateInterviewQuestions = async (position, keywords, numQuestions = 5) => {
-  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/start-interview/generate-questions`, {
+  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/generate-questions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

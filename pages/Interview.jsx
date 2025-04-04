@@ -28,8 +28,8 @@ export default function Interview() {
     currentAnswer: "",
     isComplete: false,
     isLoading: false,
-    feedback: null,
-    evaluation: null
+    evaluation: null,
+    showFeedback: false
   });
 
   // Initialize interview session
@@ -54,11 +54,14 @@ export default function Interview() {
           ...prev,
           sessionId,
           position: state.position,
-          questions: [firstQuestion], // Start with first question
+          questions: [firstQuestion],
           isLoading: false,
         }));
       } catch (error) {
-        navigate("/", { state: { error: "Failed to start interview session" } });
+        console.error("Error starting interview:", error);
+        navigate("/", { 
+          state: { error: "Failed to start interview session. Please try again." } 
+        });
       }
     };
 
@@ -70,14 +73,18 @@ export default function Interview() {
 
     if (!currentAnswer.trim() || !sessionId) return;
 
-    setInterview((prev) => ({ ...prev, isLoading: true }));
+    setInterview((prev) => ({ 
+      ...prev, 
+      isLoading: true,
+      showFeedback: false 
+    }));
 
     try {
       const response = await evaluateAnswer(sessionId, currentAnswer.trim());
-
+      console.log("Evaluation response:", response);
+      
       const { evaluation, nextQuestion, isComplete } = response;
 
-      // Update questions list if we received a follow-up
       const updatedQuestions = [...questions];
       if (nextQuestion && !isComplete) {
         updatedQuestions.push(nextQuestion);
@@ -97,16 +104,22 @@ export default function Interview() {
         currentAnswer: "",
         currentIndex: isComplete ? prev.currentIndex : prev.currentIndex + 1,
         isComplete,
-        feedback: evaluation.feedback,
         evaluation,
         isLoading: false,
+        showFeedback: true
       }));
+
     } catch (error) {
       console.error("Error evaluating answer:", error);
       setInterview((prev) => ({
         ...prev,
         isLoading: false,
-        feedback: "Could not evaluate answer at this time. Please try again.",
+        evaluation: {
+          rating: "Error",
+          feedback: "Could not evaluate answer. Please try again.",
+          followUp: ""
+        },
+        showFeedback: true
       }));
     }
   };
@@ -171,7 +184,7 @@ export default function Interview() {
                     <div className="p-4 bg-green-50 rounded-lg border border-green-200">
                       <h4 className="font-medium text-green-800">Feedback:</h4>
                       <p className="mt-1 text-gray-700">
-                        {item.evaluation.feedback}
+                        {item.evaluation.feedback || "No feedback provided."}
                       </p>
                     </div>
                     {item.evaluation.followUp && (
@@ -265,8 +278,47 @@ export default function Interview() {
             placeholder="Type your answer here..."
             disabled={interview.isLoading}
             autoFocus
+            onKeyDown={handleKeyDown}
           />
         </motion.div>
+
+        {/* Evaluation Feedback Section */}
+        {interview.showFeedback && interview.evaluation && (
+          <motion.div
+            className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-indigo-500"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="flex items-center mb-3">
+              <h4 className="font-medium text-indigo-800 mr-3">Evaluation:</h4>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                interview.evaluation?.rating === 'Excellent' ? 'bg-green-100 text-green-800' :
+                interview.evaluation?.rating === 'Good' ? 'bg-blue-100 text-blue-800' :
+                interview.evaluation?.rating === 'Fair' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-red-100 text-red-800'
+              }`}>
+                {interview.evaluation?.rating || 'Not rated'}
+              </span>
+            </div>
+            
+            <div className="space-y-3">
+              <p className="text-gray-700 whitespace-pre-wrap">
+                {interview.evaluation?.feedback || "No feedback provided."}
+              </p>
+              
+              {interview.evaluation?.followUp && (
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <h5 className="font-medium text-indigo-700">Next up:</h5>
+                  <p className="text-gray-700 mt-1">
+                    {interview.evaluation.followUp}
+                  </p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
 
         <motion.div className="flex justify-end">
           <motion.button
