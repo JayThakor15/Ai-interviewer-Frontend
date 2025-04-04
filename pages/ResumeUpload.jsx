@@ -64,21 +64,28 @@ export default function ResumeUpload() {
       setError("Please select a position first");
       return;
     }
-
+  
     setIsLoading(true);
     setError("");
+  
     try {
       console.log("Starting interview with position:", selectedPosition);
       console.log("Keywords:", keywords);
-
+  
       const response = await axios.post(
-        "https://ai-interviewer-backend-w42e.onrender.com/start-interview", // Correct backend URL
+        "https://ai-interviewer-backend-w42e.onrender.com/start-interview",
         {
           position: selectedPosition,
           keywords,
         }
       );
-
+  
+      console.log("Backend response:", response.data); // Debug log
+  
+      if (!response.data?.firstQuestion || !response.data?.sessionId) {
+        throw new Error("Invalid response from server");
+      }
+  
       navigate("/interview", {
         state: {
           position: selectedPosition,
@@ -88,7 +95,7 @@ export default function ResumeUpload() {
         },
       });
     } catch (err) {
-      console.error("Error starting interview:", err);
+      console.error("Error starting interview:", err.response?.data || err.message);
       setError(
         err.response?.data?.error || "Failed to start interview. Please try again."
       );
