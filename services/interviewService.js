@@ -1,7 +1,4 @@
 // services/interviewService.js (Frontend)
-
-const BASE_URL = "http://localhost:3000"; // Backend base URL
-
 /**
  * Starts a new interview session
  * @param {string} position - Job position being interviewed for
@@ -9,7 +6,7 @@ const BASE_URL = "http://localhost:3000"; // Backend base URL
  * @returns {Promise<{sessionId: string, firstQuestion: string}>}
  */
 export const startInterviewSession = async (position, keywords) => {
-  const response = await fetch(`${BASE_URL}/start-interview`, {
+  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/start-interview`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
