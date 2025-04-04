@@ -207,16 +207,10 @@ export default function Interview() {
   }
 
   return (
-    <motion.div
-      className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      onKeyDown={handleKeyDown}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6">
       <div className="max-w-3xl mx-auto">
         <motion.h1 
-          className="text-3xl font-bold text-indigo-800 mb-2"
+          className="text-2xl sm:text-3xl font-bold text-indigo-800 mb-2"
           initial={{ y: -20 }}
           animate={{ y: 0 }}
         >
@@ -224,17 +218,17 @@ export default function Interview() {
         </motion.h1>
         
         <motion.div 
-          className="bg-white rounded-xl shadow-md p-6 mb-6"
+          className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6"
           variants={cardVariants}
           initial="hidden"
           animate="visible"
           key={interview.currentIndex}
         >
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
             <h3 className="text-lg font-medium text-indigo-700">
               Question {interview.currentIndex + 1}
             </h3>
-            <div className="h-2 bg-blue-100 rounded-full w-full max-w-xs ml-4">
+            <div className="h-2 bg-blue-100 rounded-full w-full sm:max-w-xs mt-2 sm:mt-0">
               <motion.div
                 className="h-full bg-blue-500 rounded-full"
                 initial={{ width: 0 }}
@@ -247,7 +241,7 @@ export default function Interview() {
           </div>
           
           <motion.p 
-            className="text-lg text-gray-800"
+            className="text-base sm:text-lg text-gray-800"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -257,7 +251,7 @@ export default function Interview() {
         </motion.div>
 
         <motion.div
-          className="bg-white rounded-xl shadow-md p-6 mb-6"
+          className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6"
           variants={cardVariants}
         >
           <textarea
@@ -266,8 +260,8 @@ export default function Interview() {
               ...prev,
               currentAnswer: e.target.value
             }))}
-            className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            rows={6}
+            className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            rows={4}
             placeholder="Type your answer here..."
             disabled={interview.isLoading}
             autoFocus
@@ -278,7 +272,7 @@ export default function Interview() {
           <motion.button
             onClick={handleSubmit}
             disabled={!interview.currentAnswer.trim() || interview.isLoading}
-            className={`px-6 py-3 rounded-lg font-medium text-white shadow-md ${
+            className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-md ${
               interview.isLoading 
                 ? 'bg-gray-400' 
                 : 'bg-indigo-600 hover:bg-indigo-700'
@@ -300,45 +294,7 @@ export default function Interview() {
             )}
           </motion.button>
         </motion.div>
-
-        <AnimatePresence>
-          {(interview.feedback || interview.evaluation) && (
-            <motion.div
-              className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-indigo-500"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-            >
-              <div className="flex items-center mb-3">
-                <h4 className="font-medium text-indigo-800 mr-3">Evaluation:</h4>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  interview.evaluation?.rating === 'Excellent' ? 'bg-green-100 text-green-800' :
-                  interview.evaluation?.rating === 'Good' ? 'bg-blue-100 text-blue-800' :
-                  interview.evaluation?.rating === 'Fair' ? 'bg-yellow-100 text-yellow-800' :
-                  'bg-red-100 text-red-800'
-                }`}>
-                  {interview.evaluation?.rating || 'Not rated'}
-                </span>
-              </div>
-              
-              <div className="space-y-3">
-                <p className="text-gray-700 whitespace-pre-wrap">
-                  {interview.evaluation?.feedback || interview.feedback}
-                </p>
-                
-                {interview.evaluation?.followUp && (
-                  <div className="mt-3 pt-3 border-t border-gray-200">
-                    <h5 className="font-medium text-indigo-700">Next up:</h5>
-                    <p className="text-gray-700 mt-1">
-                      {interview.evaluation.followUp}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
-    </motion.div>
+    </div>
   );
 }

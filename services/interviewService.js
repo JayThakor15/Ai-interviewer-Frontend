@@ -1,6 +1,6 @@
 // services/interviewService.js (Frontend)
 
-const BASE_URL = "http://localhost:3000"; // Backend base URL
+// const BASE_URL = "http://localhost:3000"; // Backend base URL
 
 /**
  * Starts a new interview session
@@ -9,7 +9,7 @@ const BASE_URL = "http://localhost:3000"; // Backend base URL
  * @returns {Promise<{sessionId: string, firstQuestion: string}>}
  */
 export const startInterviewSession = async (position, keywords) => {
-  const response = await fetch(`${BASE_URL}/start-interview`, {
+  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/start-interview`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const startInterviewSession = async (position, keywords) => {
  * }>}
  */
 export const evaluateAnswer = async (sessionId, answer) => {
-  const response = await fetch(`${BASE_URL}/evaluate-answer`, {
+  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/start-interview/evaluate-answer`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export const evaluateAnswer = async (sessionId, answer) => {
  * @returns {Promise<string[]>} - Array of questions
  */
 export const generateInterviewQuestions = async (position, keywords, numQuestions = 5) => {
-  const response = await fetch(`${BASE_URL}/generate-questions`, {
+  const response = await fetch(`https://ai-interviewer-backend-w42e.onrender.com/start-interview/generate-questions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

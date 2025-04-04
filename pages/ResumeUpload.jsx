@@ -37,7 +37,7 @@ export default function ResumeUpload() {
       formData.append("file", file);
 
       const { data } = await axios.post(
-        "https://ai-interviewer-backend-w42e.onrender.com/upload",  // Updated endpoint
+        "https://ai-interviewer-backend-w42e.onrender.com/upload", // Updated endpoint
         formData,
         {
           headers: {
@@ -51,7 +51,7 @@ export default function ResumeUpload() {
     } catch (err) {
       console.error("Upload failed:", err);
       setError(
-        err.response?.data?.error || 
+        err.response?.data?.error ||
         "Failed to upload resume. Please try again."
       );
     } finally {
@@ -64,14 +64,14 @@ export default function ResumeUpload() {
       setError("Please select a position first");
       return;
     }
-  
+
     setIsLoading(true);
     setError("");
-  
+
     try {
       console.log("Starting interview with position:", selectedPosition);
       console.log("Keywords:", keywords);
-  
+
       const response = await axios.post(
         "https://ai-interviewer-backend-w42e.onrender.com/start-interview",
         {
@@ -79,13 +79,13 @@ export default function ResumeUpload() {
           keywords,
         }
       );
-  
+
       console.log("Backend response:", response.data); // Debug log
-  
+
       if (!response.data?.firstQuestion || !response.data?.sessionId) {
         throw new Error("Invalid response from server");
       }
-  
+
       navigate("/interview", {
         state: {
           position: selectedPosition,
@@ -105,21 +105,21 @@ export default function ResumeUpload() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 sm:p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden"
+        className="w-full max-w-lg sm:max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sm:p-6 text-white">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/20 rounded-full">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 <FileText className="w-6 h-6" />
                 Upload Your Resume
               </h1>
@@ -131,7 +131,7 @@ export default function ResumeUpload() {
         </div>
 
         {/* Main Content */}
-        <div className="p-6 md:p-8">
+        <div className="p-4 sm:p-6">
           {error && (
             <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
               {error}
@@ -145,7 +145,7 @@ export default function ResumeUpload() {
               transition={{ delay: 0.2 }}
             >
               <div
-                className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
+                className={`border-2 border-dashed rounded-xl p-6 sm:p-8 text-center cursor-pointer transition-colors ${
                   file
                     ? "border-blue-400 bg-blue-50"
                     : "border-gray-300 hover:border-blue-400"
@@ -164,8 +164,8 @@ export default function ResumeUpload() {
                   }}
                   className="hidden"
                 />
-                <UploadCloud className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-                <p className="text-gray-600 mb-2 font-medium">
+                <UploadCloud className="w-10 sm:w-12 h-10 sm:h-12 text-blue-500 mx-auto mb-4" />
+                <p className="text-sm sm:text-base text-gray-600 mb-2 font-medium">
                   {file ? (
                     <span className="text-blue-600">{file.name}</span>
                   ) : (
@@ -182,7 +182,7 @@ export default function ResumeUpload() {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleUpload}
                 disabled={!file || uploading}
-                className={`mt-6 w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
+                className={`mt-6 w-full py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
                   !file || uploading
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                     : "bg-blue-600 hover:bg-blue-700 text-white shadow-md"
@@ -221,9 +221,9 @@ export default function ResumeUpload() {
               className="text-center"
             >
               <div className="mb-6">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 sm:w-16 h-12 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg
-                    className="w-8 h-8 text-green-600"
+                    className="w-6 sm:w-8 h-6 sm:h-8 text-green-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -236,10 +236,10 @@ export default function ResumeUpload() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-xl font-bold text-gray-800 mb-2">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">
                   Resume Analyzed Successfully!
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-sm sm:text-base text-gray-600">
                   We found {keywords.length} key skills in your resume
                 </p>
               </div>
