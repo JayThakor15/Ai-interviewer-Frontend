@@ -29,7 +29,7 @@ export default function Welcome() {
         transition={{ duration: 0.8, delay: 0.4 }}
         className="absolute bottom-1/3 right-4 sm:right-12 w-32 h-32 sm:w-40 sm:h-40"
       >
-        <div className="relative">
+        <div className="relative left-2.5">
           <div className="absolute -inset-4 bg-purple-200 rounded-full blur-lg opacity-30"></div>
           <div className="relative bg-white p-4 sm:p-5 rounded-2xl shadow-lg border border-purple-100">
             <Laptop className="w-16 h-16 sm:w-20 sm:h-20 text-purple-600 mx-auto" />
