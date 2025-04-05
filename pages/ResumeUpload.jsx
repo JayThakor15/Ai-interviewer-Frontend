@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { UploadCloud, FileText, Briefcase, Play, Sparkles } from "lucide-react";
+import { UploadCloud, FileText, Briefcase, Play, Sparkles, CheckCircle, ChevronRight, Star, Laptop } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -105,19 +105,110 @@ export default function ResumeUpload() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden -z-10">
+        <motion.div
+          className="absolute rounded-full bg-blue-200/30 w-64 h-64 left-[10%] top-[15%]"
+          animate={{
+            y: [20, -20, 20],
+            x: [-10, 10, -10],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute rounded-full bg-purple-200/20 w-96 h-96 left-[70%] top-[80%]"
+          animate={{
+            y: [20, -20, 20],
+            x: [-10, 10, -10],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute rounded-full bg-indigo-200/25 w-80 h-80 left-[85%] top-[30%]"
+          animate={{
+            y: [20, -20, 20],
+            x: [-10, 10, -10],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      </div>
+
+      {/* Floating Elements */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="absolute top-[15%] left-4 sm:left-10 w-20 h-20 sm:w-24 sm:h-24 z-0"
+      >
+        <div className="relative">
+          <div className="absolute -inset-4 bg-blue-200 rounded-full blur-lg opacity-40"></div>
+          <div className="relative bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-lg border border-blue-100">
+            <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-blue-600 mx-auto" />
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="absolute bottom-[20%] right-4 sm:right-12 w-20 h-20 sm:w-24 sm:h-24 z-0"
+      >
+        <div className="relative">
+          <div className="absolute -inset-4 bg-purple-200 rounded-full blur-lg opacity-40"></div>
+          <div className="relative bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-lg border border-purple-100">
+            <Laptop className="w-10 h-10 sm:w-12 sm:h-12 text-purple-600 mx-auto" />
+          </div>
+        </div>
+      </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-lg sm:max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden"
+        className="w-full max-w-lg sm:max-w-2xl bg-white/95 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden border border-indigo-100/50 z-10"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sm:p-6 text-white">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-white/20 rounded-full">
+        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-4 sm:p-6 text-white relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3"></div>
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/3"></div>
+
+          <motion.div
+            className="flex items-center gap-3 relative z-10"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              className="p-2 bg-white/20 rounded-full"
+              animate={{
+                scale: [1, 1.1, 1],
+                rotate: [0, 5, 0, -5, 0]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
               <Sparkles className="w-5 h-5" />
-            </div>
+            </motion.div>
             <div>
               <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 <FileText className="w-6 h-6" />
@@ -127,11 +218,15 @@ export default function ResumeUpload() {
                 Get personalized interview questions based on your experience
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Main Content */}
-        <div className="p-4 sm:p-6">
+        <div className="p-4 sm:p-6 relative">
+          {/* Decorative corner accent */}
+          <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden">
+            <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-indigo-100 to-blue-100 transform rotate-45 translate-x-6 -translate-y-6"></div>
+          </div>
           {error && (
             <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
               {error}
@@ -144,13 +239,15 @@ export default function ResumeUpload() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <div
-                className={`border-2 border-dashed rounded-xl p-6 sm:p-8 text-center cursor-pointer transition-colors ${
+              <motion.div
+                className={`border-2 border-dashed rounded-xl p-6 sm:p-8 text-center cursor-pointer transition-all relative ${
                   file
-                    ? "border-blue-400 bg-blue-50"
-                    : "border-gray-300 hover:border-blue-400"
+                    ? "border-blue-400 bg-blue-50/70 backdrop-blur-sm"
+                    : "border-gray-300 hover:border-blue-400 hover:shadow-md"
                 }`}
                 onClick={() => fileInputRef.current?.click()}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
               >
                 <input
                   type="file"
@@ -164,7 +261,19 @@ export default function ResumeUpload() {
                   }}
                   className="hidden"
                 />
-                <UploadCloud className="w-10 sm:w-12 h-10 sm:h-12 text-blue-500 mx-auto mb-4" />
+                <motion.div
+                  animate={{
+                    y: [0, -8, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                  }}
+                >
+                  <UploadCloud className="w-10 sm:w-12 h-10 sm:h-12 text-blue-500 mx-auto mb-4" />
+                </motion.div>
                 <p className="text-sm sm:text-base text-gray-600 mb-2 font-medium">
                   {file ? (
                     <span className="text-blue-600">{file.name}</span>
@@ -175,7 +284,7 @@ export default function ResumeUpload() {
                 <p className="text-xs text-gray-500">
                   Supported formats: PDF, DOC, DOCX (Max 5MB)
                 </p>
-              </div>
+              </motion.div>
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -221,67 +330,100 @@ export default function ResumeUpload() {
               className="text-center"
             >
               <div className="mb-6">
-                <div className="w-12 sm:w-16 h-12 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg
-                    className="w-6 sm:w-8 h-6 sm:h-8 text-green-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <motion.div
+                  className="w-16 sm:w-20 h-16 sm:h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20,
+                    duration: 0.6
+                  }}
+                >
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1, repeat: 3, repeatType: "reverse" }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">
+                    <CheckCircle className="w-8 sm:w-10 h-8 sm:h-10 text-green-600" />
+                  </motion.div>
+                </motion.div>
+                <motion.h2
+                  className="text-lg sm:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-teal-600 mb-2"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
                   Resume Analyzed Successfully!
-                </h2>
-                <p className="text-sm sm:text-base text-gray-600">
+                </motion.h2>
+                <motion.p
+                  className="text-sm sm:text-base text-gray-600"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
                   We found {keywords.length} key skills in your resume
-                </p>
+                </motion.p>
               </div>
 
-              <div className="mb-6 text-left">
-                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                  <Briefcase className="w-4 h-4" />
+              <motion.div
+                className="mb-6 text-left"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-indigo-600" />
                   Select Target Position
                 </label>
-                <select
-                  value={selectedPosition}
-                  onChange={(e) => {
-                    setSelectedPosition(e.target.value);
-                    setError("");
-                  }}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                >
-                  <option value="">Select a position...</option>
-                  {positions.map((position) => (
-                    <option key={position} value={position}>
-                      {position}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                <div className="relative">
+                  <select
+                    value={selectedPosition}
+                    onChange={(e) => {
+                      setSelectedPosition(e.target.value);
+                      setError("");
+                    }}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none bg-white shadow-sm"
+                  >
+                    <option value="">Select a position...</option>
+                    {positions.map((position) => (
+                      <option key={position} value={position}>
+                        {position}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <ChevronRight className="w-4 h-4 text-gray-500 rotate-90" />
+                  </div>
+                </div>
+              </motion.div>
 
               {keywords.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-sm font-medium text-gray-700 mb-2 text-left">
+                <motion.div
+                  className="mb-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <h3 className="text-sm font-medium text-gray-700 mb-2 text-left flex items-center gap-1">
+                    <Star className="w-4 h-4 text-amber-500" />
                     Key Skills Identified:
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {keywords.map((keyword, index) => (
-                      <span
+                      <motion.span
                         key={index}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 shadow-sm"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.1 * index }}
+                        whileHover={{ scale: 1.05, backgroundColor: "#dbeafe" }}
                       >
                         {keyword}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               )}
 
               <motion.button
@@ -292,8 +434,11 @@ export default function ResumeUpload() {
                 className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 mt-4 transition-all ${
                   !selectedPosition || isLoading
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md"
+                    : "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white shadow-lg"
                 }`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
               >
                 {isLoading ? (
                   <>
